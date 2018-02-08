@@ -220,7 +220,7 @@ public class DLList {
 	*/
 	public void reduceListToKElements(int k) {
 		// TODO
-		
+
 		// Calculates the initial important measure for all nodes.
 		// Assume there are at least 3 nodes otherwise it's all meaningless.
 		
