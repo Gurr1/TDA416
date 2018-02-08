@@ -4,25 +4,25 @@ public class SplayWithGet <E extends Comparable<? super E>> extends BinarySearch
     public E get(E e) {
         Entry node = find(e, root);
         if(node == null){
-            System.out.println("null");
+            //System.out.println("null");
             return null;
         }
         while(node.parent != null && node.parent.parent != null){
             Entry grandParent = node.parent.parent;
-            if(node.equals(grandParent.right.right)){
-                System.out.println("zigzig");
+            if(grandParent.right != null && node.equals(grandParent.right.right)){
+                //System.out.println("zigzig");
                 zigZig(grandParent);
             }
-            else if(node.equals(grandParent.right.left)){
-                System.out.println("zigzag");
+            else if(grandParent.right != null && node.equals(grandParent.right.left)){
+                //System.out.println("zigzag");
                 zigZag(grandParent);
             }
-            else if(node.equals(grandParent.left.right)){
-                System.out.println("zagzig");
+            else if(grandParent.left != null && node.equals(grandParent.left.right)){
+                //System.out.println("zagzig");
                 zagZig(grandParent);
             }
-            else if(node.equals(grandParent.left.left)){
-                System.out.println("zagzag");
+            else if(grandParent.left != null && node.equals(grandParent.left.left)){
+                //System.out.println("zagzag");
                 zagZag(grandParent);
             }
             node = grandParent;

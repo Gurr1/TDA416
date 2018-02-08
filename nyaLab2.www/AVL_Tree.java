@@ -316,7 +316,7 @@ public class AVL_Tree<E extends Comparable<? super E>>
      */
     private void doubleRotateLeft( Entry x ) {
         Entry  y  = x.right,
-	z  = x.right.left;
+		z  = x.right.left;
         E      e  = x.element;
         x.element = z.element;
         z.element = e;
