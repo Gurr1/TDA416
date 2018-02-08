@@ -34,7 +34,7 @@ public class TestFrame extends JFrame implements ActionListener {
 /* ########## ########## ########## ########## ##########  */ 
 /* ## TAG BORT kommentarna på de 2 följande raderna när ni skrivit era samlingar */
 		containerSLC   = new SLCWithGet<TestMapWithCounter.TestMapEntry<String, List<Integer>>>(),
-	//	containerSplay = new SplayWithGet<TestMapWithCounter.TestMapEntry<String, List<Integer>>>(),
+		containerSplay = new SplayWithGet<TestMapWithCounter.TestMapEntry<String, List<Integer>>>(),
 		containerBST   = new BSTwithGet<TestMapWithCounter.TestMapEntry<String, List<Integer>>>(),
 		containerAVL   = new AVLwithGet<TestMapWithCounter.TestMapEntry<String, List<Integer>>>();
 
@@ -48,7 +48,7 @@ public class TestFrame extends JFrame implements ActionListener {
 /*  ########## ########## ########## ########## ##########  */  
 /* ###### TAG BORT kommentarna på de 2 följande raderna när ni skrivit era samlingar */
 		slcMap = new TestMapWithCounter<String,List<Integer>>(containerSLC),
-	//	splayMap = new TestMapWithCounter<String,List<Integer>>(containerSplay),
+		splayMap = new TestMapWithCounter<String,List<Integer>>(containerSplay),
 	
 		bstMap = new TestMapWithCounter<String,List<Integer>>(containerBST),
 		avlMap = new TestMapWithCounter<String,List<Integer>>(containerAVL);
@@ -80,7 +80,7 @@ public class TestFrame extends JFrame implements ActionListener {
 				map = bstMap;
 			else if ( e.getSource() == avl )
 				map = avlMap;
-			else  ;
+			else
 				map = splayMap;
 		}
 	}
@@ -177,6 +177,7 @@ public class TestFrame extends JFrame implements ActionListener {
 				long millis = System.currentTimeMillis();
 				//Referenslista.findRefs( textfil, map );
 				findRefs( textfil, map );
+
 				millis = System.currentTimeMillis() -millis;
 				
 				millisec.setText( nf.format(millis) + " ms." );
@@ -191,7 +192,7 @@ public class TestFrame extends JFrame implements ActionListener {
 					"File " + (indata != null ? indata.getName() : "System.in" ) 
 						+ " could not be opened !!" ); 
 			} 
-			catch( NullPointerException ex) { 
+			catch( NullPointerException ex) {
 				listModel.addElement("NO Collection implemented");
 			}
 		}

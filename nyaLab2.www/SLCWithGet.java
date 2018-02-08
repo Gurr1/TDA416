@@ -9,7 +9,7 @@ public class SLCWithGet <E extends Comparable<? super E>> extends LinkedCollecti
             return true;
         }
         Entry dummy = head;
-        while(element.compareTo(dummy.next.element) > 0){
+        while((dummy.next != null) && element.compareTo(dummy.next.element) > 0){
             dummy = dummy.next;
         }
         dummy.next = new Entry(element, dummy.next);
