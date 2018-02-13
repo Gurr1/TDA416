@@ -4,13 +4,12 @@ public class SplayWithGet <E extends Comparable<? super E>> extends BinarySearch
     enum Direction{
         LEFT, RIGHT, ROOT;
     }
-
     Stack <Direction> directions = new Stack<>();
     @Override
     public E get(E e) {
+        int i = 0;
         Entry node = find(e, root);
         if(node == null){
-            //System.out.println("null");
             return null;
         }
    /*     while(!directions.isEmpty()){
@@ -38,7 +37,8 @@ public class SplayWithGet <E extends Comparable<? super E>> extends BinarySearch
             }
         }*/
         while(node.parent != null && node.parent.parent != null) {
-    /*        Entry grandParent = node.parent.parent;
+            i++;
+            Entry grandParent = node.parent.parent;
             if(grandParent.right != null && node.equals(grandParent.right.right)){
                 //System.out.println("zigzig");
                 zigZig(grandParent);
@@ -56,7 +56,7 @@ public class SplayWithGet <E extends Comparable<? super E>> extends BinarySearch
                 zagZag(grandParent);
             }
             node = grandParent;
-        }*/
+        }
             if (node.parent != null) {
                 Entry parent = node.parent;
                 if (node.equals(parent.right)) {
@@ -66,27 +66,34 @@ public class SplayWithGet <E extends Comparable<? super E>> extends BinarySearch
                     zag(parent);
                 }
             }
-            node = node.parent;
-        }
+            if(!(e.equals(node.element))){
+                return null;
+            }
         return node.element;
     }
-   /* public Entry find(E element, Entry root){
+    public Entry find(E element, Entry root){
             if ( root == null )
                 return null;
             else {
                 int jfr = element.compareTo( root.element );
                 if ( jfr  < 0 ) {
                     directions.push(Direction.LEFT);
+                    if(root.left == null) {
+                        return root;
+                    }
                     return find(element, root.left);
                 }
                 else if ( jfr > 0 ) {
                     directions.push(Direction.RIGHT);
+                    if(root.right == null){
+                        return root;
+                    }
                     return find(element, root.right);
                 }
                 else
                     return root;
             }
-        }  //   find*/
+        }  //   find
     private void zagZig( Entry x ) {
         Entry y = x.left,
                 z = x.left.right;
