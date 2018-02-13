@@ -1,5 +1,11 @@
-public class SplayWithGet <E extends Comparable<? super E>> extends BinarySearchTree<E> implements CollectionWithGet<E>{
+import java.util.Stack;
 
+public class SplayWithGet <E extends Comparable<? super E>> extends BinarySearchTree<E> implements CollectionWithGet<E>{
+    enum Direction{
+        LEFT, RIGHT, ROOT;
+    }
+
+    Stack <Direction> directions = new Stack<>();
     @Override
     public E get(E e) {
         Entry node = find(e, root);
@@ -7,8 +13,32 @@ public class SplayWithGet <E extends Comparable<? super E>> extends BinarySearch
             //System.out.println("null");
             return null;
         }
-        while(node.parent != null && node.parent.parent != null){
-            Entry grandParent = node.parent.parent;
+   /*     while(!directions.isEmpty()){
+            Direction parent = directions.pop();
+            Direction grandparent = Direction.ROOT;
+            if(!directions.isEmpty()){
+                grandparent = directions.pop();
+            }
+            if(parent.equals(Direction.LEFT)){
+                if(grandparent.equals(Direction.LEFT)){
+                    zagZag(node.parent.parent);
+                    node = node.parent.parent;
+                    continue;
+                }
+                if(grandparent.equals(Direction.RIGHT)){
+                    zagZig(node.parent.parent);
+                    node = node.parent.parent;
+                    continue;
+                }
+                zig(node.parent);
+
+            }
+            if(parent.equals(Direction.RIGHT)){
+
+            }
+        }*/
+        while(node.parent != null && node.parent.parent != null) {
+    /*        Entry grandParent = node.parent.parent;
             if(grandParent.right != null && node.equals(grandParent.right.right)){
                 //System.out.println("zigzig");
                 zigZig(grandParent);
@@ -26,27 +56,37 @@ public class SplayWithGet <E extends Comparable<? super E>> extends BinarySearch
                 zagZag(grandParent);
             }
             node = grandParent;
-        }
-        if(node.parent != null){
-            Entry parent = node.parent;
-            if(node.equals(parent.right)){
-                zig(parent);
+        }*/
+            if (node.parent != null) {
+                Entry parent = node.parent;
+                if (node.equals(parent.right)) {
+                    zig(parent);
+                }
+                if (node.equals(parent.left)) {
+                    zag(parent);
+                }
             }
-            if(node.equals(parent.left)){
-                zag(parent);
-            }
+            node = node.parent;
         }
         return node.element;
     }
-  /*  public Entry find(E element, Entry root){
-        int result = element.compareTo(root.element);
-        if(result > 0){
-
-        }
-        else if (result < 0){
-
-        }
-    }*/
+   /* public Entry find(E element, Entry root){
+            if ( root == null )
+                return null;
+            else {
+                int jfr = element.compareTo( root.element );
+                if ( jfr  < 0 ) {
+                    directions.push(Direction.LEFT);
+                    return find(element, root.left);
+                }
+                else if ( jfr > 0 ) {
+                    directions.push(Direction.RIGHT);
+                    return find(element, root.right);
+                }
+                else
+                    return root;
+            }
+        }  //   find*/
     private void zagZig( Entry x ) {
         Entry y = x.left,
                 z = x.left.right;
