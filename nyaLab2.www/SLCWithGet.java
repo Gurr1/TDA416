@@ -15,13 +15,16 @@ public class SLCWithGet <E extends Comparable<? super E>> extends LinkedCollecti
         dummy.next = new Entry(element, dummy.next);
         return true;
     }
-
     @Override
     public E get(E e) {
         Entry dummy = head;
         while(dummy != null) {
-            if (e.compareTo(dummy.element) == 0){
+            int res = e.compareTo(dummy.element);
+            if (res == 0){
                 return dummy.element;
+            }
+            else if(res < 1){
+                return null;
             }
             dummy = dummy.next;
         }

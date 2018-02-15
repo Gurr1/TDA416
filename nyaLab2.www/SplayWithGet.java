@@ -1,5 +1,3 @@
-import java.util.Stack;
-
 public class SplayWithGet <E extends Comparable<? super E>> extends BinarySearchTree<E> implements CollectionWithGet<E>{
 
     @Override
@@ -39,16 +37,12 @@ public class SplayWithGet <E extends Comparable<? super E>> extends BinarySearch
         while(node.parent != null && node.parent.parent != null) {
             Entry grandParent = node.parent.parent;
             if (grandParent.right != null && node.equals(grandParent.right.right)) {
-                System.out.println("zigzig");
                 zigZig(grandParent);
             } else if (grandParent.right != null && node.equals(grandParent.right.left)) {
-                System.out.println("zigzag");
                 zigZag(grandParent);
             } else if (grandParent.left != null && node.equals(grandParent.left.right)) {
-                System.out.println("zagzig");
                 zagZig(grandParent);
             } else if (grandParent.left != null && node.equals(grandParent.left.left)) {
-                System.out.println("zagzag");
                 zagZag(grandParent);
             }
             node = grandParent;
@@ -56,11 +50,9 @@ public class SplayWithGet <E extends Comparable<? super E>> extends BinarySearch
         if (node.parent != null) {
             Entry parent = node.parent;
             if (node.equals(parent.right)) {
-                System.out.println(node + " zig");
                 zig(parent);
             }
             else if (node.equals(parent.left)) {
-                System.out.println(node + " zag");
                 zag(parent);
             }
         }
