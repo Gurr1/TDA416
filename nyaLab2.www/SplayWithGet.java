@@ -1,99 +1,70 @@
 import java.util.Stack;
 
 public class SplayWithGet <E extends Comparable<? super E>> extends BinarySearchTree<E> implements CollectionWithGet<E>{
-    enum Direction{
-        LEFT, RIGHT, ROOT;
-    }
-    Stack <Direction> directions = new Stack<>();
+
     @Override
     public E get(E e) {
-        int i = 0;
         Entry node = find(e, root);
-        if(node == null){
-            return null;
-        }
-   /*     while(!directions.isEmpty()){
-            Direction parent = directions.pop();
-            Direction grandparent = Direction.ROOT;
-            if(!directions.isEmpty()){
-                grandparent = directions.pop();
-            }
-            if(parent.equals(Direction.LEFT)){
-                if(grandparent.equals(Direction.LEFT)){
-                    zagZag(node.parent.parent);
-                    node = node.parent.parent;
-                    continue;
-                }
-                if(grandparent.equals(Direction.RIGHT)){
-                    zagZig(node.parent.parent);
-                    node = node.parent.parent;
-                    continue;
-                }
-                zig(node.parent);
-
-            }
-            if(parent.equals(Direction.RIGHT)){
-
-            }
-        }*/
-        while(node.parent != null && node.parent.parent != null) {
-            i++;
-            Entry grandParent = node.parent.parent;
-            if(grandParent.right != null && node.equals(grandParent.right.right)){
-                //System.out.println("zigzig");
-                zigZig(grandParent);
-            }
-            else if(grandParent.right != null && node.equals(grandParent.right.left)){
-                //System.out.println("zigzag");
-                zigZag(grandParent);
-            }
-            else if(grandParent.left != null && node.equals(grandParent.left.right)){
-                //System.out.println("zagzig");
-                zagZig(grandParent);
-            }
-            else if(grandParent.left != null && node.equals(grandParent.left.left)){
-                //System.out.println("zagzag");
-                zagZag(grandParent);
-            }
-            node = grandParent;
-        }
-            if (node.parent != null) {
-                Entry parent = node.parent;
-                if (node.equals(parent.right)) {
-                    zig(parent);
-                }
-                if (node.equals(parent.left)) {
-                    zag(parent);
-                }
-            }
-            if(!(e.equals(node.element))){
-                return null;
-            }
-        return node.element;
+        return node == null ? null :  node.element;
     }
     public Entry find(E element, Entry root){
-            if ( root == null )
+            if ( root == null || element == null)
                 return null;
             else {
                 int jfr = element.compareTo( root.element );
                 if ( jfr  < 0 ) {
-                    directions.push(Direction.LEFT);
                     if(root.left == null) {
-                        return root;
+                        splay(root);
+                        return null;
                     }
                     return find(element, root.left);
                 }
                 else if ( jfr > 0 ) {
-                    directions.push(Direction.RIGHT);
                     if(root.right == null){
-                        return root;
+                        splay(root);
+                        return null;
                     }
                     return find(element, root.right);
                 }
-                else
+                else {
+                    splay(root);
                     return root;
+                }
             }
         }  //   find
+    private void splay(Entry node){
+        if(node == null){
+            return;
+        }
+        while(node.parent != null && node.parent.parent != null) {
+            Entry grandParent = node.parent.parent;
+            if (grandParent.right != null && node.equals(grandParent.right.right)) {
+                System.out.println("zigzig");
+                zigZig(grandParent);
+            } else if (grandParent.right != null && node.equals(grandParent.right.left)) {
+                System.out.println("zigzag");
+                zigZag(grandParent);
+            } else if (grandParent.left != null && node.equals(grandParent.left.right)) {
+                System.out.println("zagzig");
+                zagZig(grandParent);
+            } else if (grandParent.left != null && node.equals(grandParent.left.left)) {
+                System.out.println("zagzag");
+                zagZag(grandParent);
+            }
+            node = grandParent;
+        }
+        if (node.parent != null) {
+            Entry parent = node.parent;
+            if (node.equals(parent.right)) {
+                System.out.println(node + " zig");
+                zig(parent);
+            }
+            else if (node.equals(parent.left)) {
+                System.out.println(node + " zag");
+                zag(parent);
+            }
+        }
+    }
     private void zagZig( Entry x ) {
         Entry y = x.left,
                 z = x.left.right;

@@ -49,7 +49,6 @@ public class TestFrame extends JFrame implements ActionListener {
 /* ###### TAG BORT kommentarna på de 2 följande raderna när ni skrivit era samlingar */
 		slcMap = new TestMapWithCounter<String,List<Integer>>(containerSLC),
 		splayMap = new TestMapWithCounter<String,List<Integer>>(containerSplay),
-	
 		bstMap = new TestMapWithCounter<String,List<Integer>>(containerBST),
 		avlMap = new TestMapWithCounter<String,List<Integer>>(containerAVL);
 
