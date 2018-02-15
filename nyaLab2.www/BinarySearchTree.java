@@ -112,7 +112,7 @@ public class BinarySearchTree<E extends Comparable<? super E>>
 			this( element, null, null, parent );
 		} //  constructor Entry
 		
-		//@Override
+		@Override
 		public String toString() {
 			//return element.toString();
 			//return String.valueOf(element); // klarar även null
