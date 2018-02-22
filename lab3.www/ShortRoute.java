@@ -163,6 +163,7 @@ public class ShortRoute extends JFrame implements ActionListener {
 		else if (e.getSource() == to) {
 			String tmpFrom = from.getText().trim();
 			String tmpTo = to.getText().trim();
+			System.out.println(tmpTo);
 			if ( tmpTo.equals("MST") || tmpTo.equals("mst") )
 				findMinSpan();
 			else { 
@@ -242,7 +243,7 @@ public class ShortRoute extends JFrame implements ActionListener {
 		int    totNodes  = 0;
 		route.setText("");
 		karta.clearLayer(DrawGraph.Layer.OVERLAY);
-		Iterator<BusEdge> it = grafen.shortestPath( start, slut); 
+		Iterator<BusEdge> it = grafen.shortestPath( start, slut);
 		while ( it.hasNext() ) {
 			BusEdge e = it.next();
 			route.append( makeText1(e) + "\n");
