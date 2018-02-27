@@ -5,6 +5,11 @@ public class CompKruskalEdge extends BusEdge implements Comparable<CompKruskalEd
         this.weight = weight;
     }
 
+    /**
+     * compares the weight of tho krusal Edges.
+     * @param kruscalEdge the object to compare to.
+     * @return -1 if the first object has lesser weight. 0 if they have equal weight. 1 if the second object has lesser weight.
+     */
     @Override
     public int compareTo(CompKruskalEdge kruscalEdge) {     // only used by the priority-queue, compares the weight of different paths.
         if(this.weight < kruscalEdge.weight){

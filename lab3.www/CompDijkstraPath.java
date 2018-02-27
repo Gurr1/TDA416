@@ -4,7 +4,7 @@ public class CompDijkstraPath <E extends Edge> implements Comparable<CompDijkstr
     private int currentNode;
     private double cost;
     /**
-     * The Path the
+     * The Path that has been taken thus far.
      */
     private List<E> path;
     CompDijkstraPath(int node, double cost, List<E> path){
@@ -14,9 +14,9 @@ public class CompDijkstraPath <E extends Edge> implements Comparable<CompDijkstr
     }
 
     /**
-     *
-     * @param c an CompDijkstraPath object that
-     * @return -1 if
+     * Compares which of two CompDijsktraObjects has the least cost to move to each of the nodes.
+     * @param c an CompDijkstraPath object to compare to.
+     * @return -1 if the first dijkstra path has the least cost. 0 if they have equal cost. 1 if the second has smallest cost.
      */
     @Override
     public int compareTo(CompDijkstraPath c) {
