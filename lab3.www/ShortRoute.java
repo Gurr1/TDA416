@@ -199,6 +199,7 @@ public class ShortRoute extends JFrame implements ActionListener {
 			karta.clearLayer(DrawGraph.Layer.OVERLAY);
 			while ( it.hasNext() ) {
 				BusEdge be = it.next();
+				System.out.println(be);
 				totNodes++;
 				totWeight += be.getWeight();
 				route.append(  makeText2(be) + "\n");

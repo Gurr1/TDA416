@@ -1,7 +1,7 @@
-public class CompKruskalEdge extends Edge implements Comparable<CompKruskalEdge>{
+public class CompKruskalEdge extends BusEdge implements Comparable<CompKruskalEdge>{
     private double weight;
-    CompKruskalEdge(int from, int to, double weight) {
-        super(from, to);
+    CompKruskalEdge(int from, int to, double weight, String s) {
+        super(from, to, weight, s);
         this.weight = weight;
     }
 

@@ -42,44 +42,40 @@ public class DirectedGraph<E extends Edge> {
 	}
 		
 	public Iterator<E> minimumSpanningTree() {
-	    List <E>[]cc = new ArrayList[graph.size()];
+	    List <List<E>> cc = new ArrayList<>();
         PriorityQueue<CompKruskalEdge> pq = new PriorityQueue<>();
         for(List<E> neighors : graph) {
             for (E node : neighors) {
-                pq.add(new CompKruskalEdge(node.getSource(), node.getDest(), node.getWeight()));
+                pq.add(new CompKruskalEdge(node.getSource(), node.getDest(), node.getWeight(), ""));
+                cc.add(new ArrayList<>());
             }
         }
-        while(!pq.isEmpty() && cc.length>1){
+        while(!pq.isEmpty()){
             CompKruskalEdge e = pq.poll();
-            if(cc[e.getFrom()] != cc[e.getTo()]){
-                if(cc[e.getFrom()].size() > cc[e.getTo()].size()){
-                    cc[e.getFrom()].addAll(cc[e.getTo()]);
-                    List<E> reference = cc[e.getTo()];
-                    for(int i = 0; i < cc.length ; i++){
-                        if(cc[i] == reference){
-                            cc[i] = cc[e.getFrom()];
+            if(cc.get(e.getFrom()) != cc.get(e.getTo())){
+                if(cc.get(e.getFrom()).size() > cc.get(e.getTo()).size()){
+                    cc.get(e.getFrom()).addAll(cc.get(e.getTo()));
+                    List<E> reference = cc.get(e.getTo());
+                    for(int i = 0; i < cc.size() ; i++){
+                        if(cc.get(i) == reference){
+                            cc.add(cc.get(e.getFrom()));
                         }
                     }
-                    cc[e.getFrom()].add((E) e);
+                    cc.get(e.getFrom()).add((E) e);
                 }
                 else{
-                    cc[e.getTo()].addAll(cc[e.getFrom()]);
-                    List<E> reference = cc[e.getFrom()];
-                    for(int i = 0; i < cc.length ; i++){
-                        if(cc[i] == reference){
-                            cc[i] = cc[e.getTo()];
+                    cc.get(e.getTo()).addAll(cc.get(e.getFrom()));
+                    List<E> reference = cc.get(e.getFrom());
+                    for(int i = 0; i < cc.size() ; i++){
+                        if(cc.get(i) == reference){
+                            cc.add(cc.get(e.getTo()));
                         }
                     }
-                    cc[e.getTo()].add((E) e);
+                    cc.get(e.getTo()).add((E) e);
                 }
-
                 }
-
             }
-        System.out.println(cc[0]);
-        return cc[0].iterator();
+        return cc.get(0).iterator();
 
     }
 	}
-
-  
