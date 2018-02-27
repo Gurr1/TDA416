@@ -24,19 +24,19 @@ public class DirectedGraph<E extends Edge> {
      */
 	public Iterator<E> shortestPath(int from, int to) {
 	    List<Integer> visitedNodes = new ArrayList<>();
-		PriorityQueue<CompDijkstraPath> paths = new PriorityQueue<>();
-		paths.add(new CompDijkstraPath<>(from, 0, new ArrayList<E>()));
-		while(!paths.isEmpty()){
+		PriorityQueue<CompDijkstraPath> paths = new PriorityQueue<>();  //Paths to explore
+		paths.add(new CompDijkstraPath<>(from, 0, new ArrayList<E>())); //First path = just the first node
+		while(!paths.isEmpty()){    
             CompDijkstraPath dijkstra = paths.poll();   //Gets the dijkstra object with the shortest unexplored path
 		    int currentNode = dijkstra.getCurrentNode();
 		    List<E> currentPath = dijkstra.getPath();
             if(!(visitedNodes.contains(currentNode))){
-		        if(currentNode == to){
+		        if(currentNode == to){  //Reached goal
                      return currentPath.iterator();
                 }
                 else{
-		            visitedNodes.add(currentNode);
-		            for(E edge : graph.get(currentNode)){
+		            visitedNodes.add(currentNode); 
+		            for(E edge : graph.get(currentNode)){   //Adds all paths from the current node to pq
 		                if(!visitedNodes.contains(edge.getDest())){
 		                	List<E> list = new ArrayList<>(currentPath);
 		                	list.add(edge);
@@ -71,26 +71,31 @@ public class DirectedGraph<E extends Edge> {
             List<E> to = cc.get(e.getTo());
             if(from != to){     //If nodes on edge not already connected ...
             	if(from.size() > to.size()){
-                    from.addAll(to);
-                    for(int i = 0; i < cc.size() ; i++){
-                        if(cc.get(i) == to){
-							cc.set(i, from);
-						}
-                    }
+                    repoint(to, from, cc);
                     from.add((E) e);
                 } else {
-                    to.addAll(from);
-                    for(int i = 0; i < cc.size() ; i++){
-                        if(cc.get(i) == from){
-							cc.set(i, to);
-                        }
-                    }
+                    repoint(from, to, cc);
                     to.add((E) e);
                 }
                 nRepointed++;
             }
         }
         return cc.get(0).iterator();
+    }
+
+    /**
+     * Redirects every pointer in a list of lists pointing at the old list to pointing at the new list
+     * @param old The old list
+     * @param newListPointer The new list
+     * @param cc The list of lists
+     */
+    private void repoint(List<E> old, List<E> newListPointer, List<List<E>> cc) {
+        newListPointer.addAll(old);
+        for(int i = 0; i < cc.size() ; i++){
+            if(cc.get(i) == old){
+                cc.set(i, newListPointer);
+            }
+        }
     }
 
 
