@@ -16,23 +16,31 @@ public class DirectedGraph<E extends Edge> {
 		graph.get(from).add(e);
 	}
 
+    /**
+     * Calculates the shortest path from node A to node B
+     * @param from Node A
+     * @param to Node B
+     * @return An iterator containing the edges that constitute the shortest path
+     */
 	public Iterator<E> shortestPath(int from, int to) {
 	    List<Integer> visitedNodes = new ArrayList<>();
 		PriorityQueue<CompDijkstraPath> paths = new PriorityQueue<>();
 		paths.add(new CompDijkstraPath<>(from, 0, new ArrayList<E>()));
 		while(!paths.isEmpty()){
-		     CompDijkstraPath currentWeightedPath = paths.poll();
-		    if(!(visitedNodes.contains(currentWeightedPath.getNode()))){
-		        if(currentWeightedPath.getNode() == to){
-                     return currentWeightedPath.getPath().iterator();
+            CompDijkstraPath dijkstra = paths.poll();   //Gets the dijkstra object with the shortest unexplored path
+		    int currentNode = dijkstra.getCurrentNode();
+		    List<E> currentPath = dijkstra.getPath();
+            if(!(visitedNodes.contains(currentNode))){
+		        if(currentNode == to){
+                     return currentPath.iterator();
                 }
                 else{
-		            visitedNodes.add(currentWeightedPath.getNode());
-		            for(E edge : graph.get(currentWeightedPath.getNode())){
+		            visitedNodes.add(currentNode);
+		            for(E edge : graph.get(currentNode)){
 		                if(!visitedNodes.contains(edge.getDest())){
-		                	List<E> list = new ArrayList<>(currentWeightedPath.getPath());
+		                	List<E> list = new ArrayList<>(currentPath);
 		                	list.add(edge);
-		                    paths.add(new CompDijkstraPath(edge.getDest(), currentWeightedPath.getCost() + edge.getWeight(), list));
+		                    paths.add(new CompDijkstraPath(edge.getDest(), dijkstra.getCost() + edge.getWeight(), list));
                         }
                     }
                 }
@@ -40,46 +48,50 @@ public class DirectedGraph<E extends Edge> {
         }
         return null;
 	}
-		
+
+    /**
+     * Calculates the minimum set of edges that with the minimum cost connects all the nodes to each other
+     * @return An iterator containing the edges mentioned above
+     */
 	public Iterator<E> minimumSpanningTree() {
 	    List <List<E>> cc = new ArrayList<>();
         PriorityQueue<CompKruskalEdge> pq = new PriorityQueue<>();
-        for(List<E> neighors : graph) {
-            for (E node : neighors) {
-                pq.add(new CompKruskalEdge(node.getSource(), node.getDest(), node.getWeight(), ""));
+
+        for(List<E> neighbours : graph) { //Adds all the edges as comparable Kruskal edges to the priority queue
+            for (E edge : neighbours) {
+                pq.add(new CompKruskalEdge(edge.getSource(), edge.getDest(), edge.getWeight()));
             }
-			cc.add(new ArrayList<>());
+			cc.add(new ArrayList<>());  //Adds one empty list for each node to cc
         }
-		System.out.println("pq: " + pq);
-		System.out.println("end pq");
-		int nRepointed = 0;
+
+		int nRepointed = 0; //To make it possible to see when all the pointers in cc points to the same list
         while(!pq.isEmpty() && nRepointed < (cc.size() - 1)){
-            CompKruskalEdge e = pq.poll();
-            if(cc.get(e.getFrom()) != cc.get(e.getTo())){
-                nRepointed++;
-            	if(cc.get(e.getFrom()).size() > cc.get(e.getTo()).size()){
-                    cc.get(e.getFrom()).addAll(cc.get(e.getTo()));
-                    List<E> reference = cc.get(e.getTo());
+            CompKruskalEdge e = pq.poll();      //Get shortest edge in pq
+            List<E> from = cc.get(e.getFrom());
+            List<E> to = cc.get(e.getTo());
+            if(from != to){     //If nodes on edge not already connected ...
+            	if(from.size() > to.size()){
+                    from.addAll(to);
                     for(int i = 0; i < cc.size() ; i++){
-                        if(cc.get(i) == reference){
-							cc.set(i, cc.get(e.getFrom()));
+                        if(cc.get(i) == to){
+							cc.set(i, from);
 						}
                     }
-                    cc.get(e.getFrom()).add((E) e);
-                }
-                else{
-                    cc.get(e.getTo()).addAll(cc.get(e.getFrom()));
-                    List<E> reference = cc.get(e.getFrom());
+                    from.add((E) e);
+                } else {
+                    to.addAll(from);
                     for(int i = 0; i < cc.size() ; i++){
-                        if(cc.get(i) == reference){
-							cc.set(i, cc.get(e.getTo()));
+                        if(cc.get(i) == from){
+							cc.set(i, to);
                         }
                     }
-                    cc.get(e.getTo()).add((E) e);
+                    to.add((E) e);
                 }
-                }
+                nRepointed++;
             }
+        }
         return cc.get(0).iterator();
-
     }
-	}
+
+
+}

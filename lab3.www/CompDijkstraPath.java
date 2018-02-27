@@ -1,12 +1,11 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class CompDijkstraPath <E extends Edge> implements Comparable<CompDijkstraPath>{
-    private int node;
+    private int currentNode;
     private double cost;
     private List<E> path;
     CompDijkstraPath(int node, double cost, List<E> path){
-        this.node = node;
+        this.currentNode = node;
         this.cost = cost;
         this.path = path;
     }
@@ -22,8 +21,8 @@ public class CompDijkstraPath <E extends Edge> implements Comparable<CompDijkstr
         return 0;
     }
 
-    public int getNode() {
-        return node;
+    public int getCurrentNode() {
+        return currentNode;
     }
 
     public double getCost() {
