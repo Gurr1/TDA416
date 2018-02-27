@@ -6,7 +6,7 @@ public class CompKruskalEdge extends BusEdge implements Comparable<CompKruskalEd
     }
 
     @Override
-    public int compareTo(CompKruskalEdge kruscalEdge) {
+    public int compareTo(CompKruskalEdge kruscalEdge) {     // only used by the priority-queue, compares the weight of different paths.
         if(this.weight < kruscalEdge.weight){
             return -1;
         }
