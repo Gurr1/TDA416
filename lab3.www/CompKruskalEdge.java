@@ -27,4 +27,11 @@ public class CompKruskalEdge extends BusEdge implements Comparable<CompKruskalEd
     public double getWeight() {
         return weight;
     }
+
+    @Override
+    public String toString() {
+        return "CompKruskalEdge{" + from + "-" + to + " " +
+                "weight=" + weight +
+                '}' + "\n";
+    }
 }

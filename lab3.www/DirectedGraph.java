@@ -47,19 +47,23 @@ public class DirectedGraph<E extends Edge> {
         for(List<E> neighors : graph) {
             for (E node : neighors) {
                 pq.add(new CompKruskalEdge(node.getSource(), node.getDest(), node.getWeight(), ""));
-                cc.add(new ArrayList<>());
             }
+			cc.add(new ArrayList<>());
         }
-        while(!pq.isEmpty()){
+		System.out.println("pq: " + pq);
+		System.out.println("end pq");
+		int nRepointed = 0;
+        while(!pq.isEmpty() && nRepointed < (cc.size() - 1)){
             CompKruskalEdge e = pq.poll();
             if(cc.get(e.getFrom()) != cc.get(e.getTo())){
-                if(cc.get(e.getFrom()).size() > cc.get(e.getTo()).size()){
+                nRepointed++;
+            	if(cc.get(e.getFrom()).size() > cc.get(e.getTo()).size()){
                     cc.get(e.getFrom()).addAll(cc.get(e.getTo()));
                     List<E> reference = cc.get(e.getTo());
                     for(int i = 0; i < cc.size() ; i++){
                         if(cc.get(i) == reference){
-                            cc.add(cc.get(e.getFrom()));
-                        }
+							cc.set(i, cc.get(e.getFrom()));
+						}
                     }
                     cc.get(e.getFrom()).add((E) e);
                 }
@@ -68,7 +72,7 @@ public class DirectedGraph<E extends Edge> {
                     List<E> reference = cc.get(e.getFrom());
                     for(int i = 0; i < cc.size() ; i++){
                         if(cc.get(i) == reference){
-                            cc.add(cc.get(e.getTo()));
+							cc.set(i, cc.get(e.getTo()));
                         }
                     }
                     cc.get(e.getTo()).add((E) e);
